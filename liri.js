@@ -1,6 +1,6 @@
 require(`dotenv`).config();
-
-// const fs = require(`fs`);
+const request = require(`request`);
+const moment = require(`moment`);
 const Spotify = require(`node-spotify-api`);
 const keys = require(`./keys.js`);
 var command = process.argv[2];
@@ -20,7 +20,7 @@ switch (command) {
         query: searchTerm,
         limit: `5`
       })
-      .then(function(data) {
+      .then(data => {
         data.tracks.items.forEach(function(i) {
           console.log(`===================================================`);
           console.log(`\nSong: "${i.name}"`);
@@ -38,7 +38,25 @@ switch (command) {
         console.log(`\nSong: "The Sign"`);
         console.log(`\nAlbum: The Sign (US Album) [Remastered]`);
         console.log(`\nArtist: Ace of Base`);
-        console.log(`\nPreview: https://p.scdn.co/mp3-preview/4c463359f67dd3546db7294d236dd0ae991882ff?cid=6179a4f992444a50a4812ff7f6ce00da (Ctr/Cmd + click)\n`);
+        console.log(
+          `\nPreview: https://p.scdn.co/mp3-preview/4c463359f67dd3546db7294d236dd0ae991882ff?cid=6179a4f992444a50a4812ff7f6ce00da (Ctr/Cmd + click)\n`
+        );
         console.log(`===================================================`);
       });
+    break;
+  case `concert-this`:
+    let queryUrl = `https://rest.bandsintown.com/artists/${searchTerm}/events?app_id=codingbootcamp`;
+    request(queryUrl, (error, response, body) => {
+      const parsedBody = JSON.parse(body);
+      console.log(`Error: ${error}`);
+      console.log(`Status Code: ${response}`);
+      parsedBody.forEach(k => {
+        console.log(`===================================================`);
+        console.log(`"${k.venue.name}"`);
+        console.log(`${k.venue.city}, ${k.venue.region}, ${k.venue.country}`);
+        console.log(`Event Date: ${moment(k.datetime).format("MM/DD/YYYY")}`);
+        console.log(`===================================================\n`);
+      });
+    });
+    break;
 }
