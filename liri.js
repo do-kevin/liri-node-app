@@ -7,8 +7,11 @@ const keys = require(`./keys.js`);
 var command = process.argv[2];
 var searchTerm = process.argv.slice(3).join("+");
 
-console.log(command);
-console.log(searchTerm);
+console.log(`\n========================`);
+console.log  (`==      Kevin Do      ==`);
+console.log  (`========================\n`);
+
+console.log(`'${command}' initiated.\n`);
 
 // Grabs ID & secret
 const spotify = new Spotify(keys.spotify);
@@ -33,22 +36,22 @@ function spotifyThis() {
       });
     })
     .catch(err => {
-      console.log(`Error: ${err}`);
       console.log(`===================================================`);
-      console.log(`\nSong: "The Sign"`);
-      console.log(`\nAlbum: The Sign (US Album) [Remastered]`);
-      console.log(`\nArtist: Ace of Base`);
-      console.log(
-        `\nPreview: https://p.scdn.co/mp3-preview/4c463359f67dd3546db7294d236dd0ae991882ff?cid=6179a4f992444a50a4812ff7f6ce00da (Ctr/Cmd + click)\n`
-      );
+      console.log(`Error: ${err}`);
       console.log(`===================================================`);
     });
 }
 
 switch (command) {
   case `spotify-this-song`:
+  if (searchTerm === "" || searchTerm === null || searchTerm === undefined) {
+    searchTerm = `The+Sign+Ace+Of+Base`;
+    spotifyThis(searchTerm)
+  } else {
     spotifyThis(searchTerm);
-    break;
+  } 
+  break;
+
   case `concert-this`:
     var queryUrl = `https://rest.bandsintown.com/artists/${searchTerm}/events?app_id=codingbootcamp`;
     request(queryUrl, (error, response, body) => {
