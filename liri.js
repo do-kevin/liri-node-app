@@ -7,11 +7,7 @@ const keys = require(`./keys.js`);
 var command = process.argv[2];
 var searchTerm = process.argv.slice(3).join("+");
 
-console.log(`\n========================`);
-console.log  (`==      Kevin Do      ==`);
-console.log  (`========================\n`);
-
-console.log(`'${command}' initiated.\n`);
+console.log(`\n'${command}' initiated.\n`);
 
 // Grabs ID & secret
 const spotify = new Spotify(keys.spotify);
