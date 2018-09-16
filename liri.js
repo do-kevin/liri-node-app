@@ -21,7 +21,7 @@ switch (command) {
         limit: `5`
       })
       .then(data => {
-        data.tracks.items.forEach(function(i) {
+        data.tracks.items.forEach(i => {
           console.log(`===================================================`);
           console.log(`\nSong: "${i.name}"`);
           console.log(`\nAlbum: ${i.album.name}`);
@@ -32,7 +32,7 @@ switch (command) {
           console.log(`===================================================`);
         });
       })
-      .catch(function(err) {
+      .catch(err => {
         console.log(`Error: ${err}`);
         console.log(`===================================================`);
         console.log(`\nSong: "The Sign"`);
@@ -45,11 +45,11 @@ switch (command) {
       });
     break;
   case `concert-this`:
-    let queryUrl = `https://rest.bandsintown.com/artists/${searchTerm}/events?app_id=codingbootcamp`;
+    var queryUrl = `https://rest.bandsintown.com/artists/${searchTerm}/events?app_id=codingbootcamp`;
     request(queryUrl, (error, response, body) => {
       const parsedBody = JSON.parse(body);
-      console.log(`Error: ${error}`);
-      console.log(`Status Code: ${response}`);
+      console.log(`\nError: ${error}`);
+      console.log(`Status Code: ${response.statusCode}\n`);
       parsedBody.forEach(k => {
         console.log(`===================================================`);
         console.log(`"${k.venue.name}"`);
@@ -57,6 +57,30 @@ switch (command) {
         console.log(`Event Date: ${moment(k.datetime).format("MM/DD/YYYY")}`);
         console.log(`===================================================\n`);
       });
+    });
+    break;
+  case `movie-this`:
+    var queryUrl = `http://www.omdbapi.com/?t=${searchTerm}&y=&plot=short&apikey=trilogy`;
+    request(queryUrl, (error, response, body) => {
+      const parsedBody = JSON.parse(body);
+      if (error !== null && response.statusCode !== 200) {
+        console.log(`\nError: ${error}`);
+        console.log(`Status Code: ${response.statusCode}\n`);
+      }
+      console.log(`===================================================`);
+      console.log(parsedBody);
+      console.log(`Title: ${parsedBody.Title}`);
+      console.log(`Released: ${parsedBody.Released}`);
+      console.log(`IMDB Rating: ${parsedBody.imdbRating}`);
+      console.log(`Rotten Tomatoes Rating: ${parsedBody.Ratings[1].Value}`);
+      console.log(`Country Produced at: ${parsedBody.Country}`);
+      console.log(`Language: ${parsedBody.Language}`);
+      console.log(`Plot: ${parsedBody.Plot}\n`);
+
+      Object.keys(parsedBody.Actors).forEach(function(l) {
+        console.log(`Actors: ${parsedBody.Actors[l]}`);
+      });
+      console.log(`===================================================`);
     });
     break;
 }
