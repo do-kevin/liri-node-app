@@ -67,20 +67,16 @@ switch (command) {
         console.log(`\nError: ${error}`);
         console.log(`Status Code: ${response.statusCode}\n`);
       }
-      console.log(`===================================================`);
-      console.log(parsedBody);
+      console.log(`===================================================\n`);
       console.log(`Title: ${parsedBody.Title}`);
       console.log(`Released: ${parsedBody.Released}`);
       console.log(`IMDB Rating: ${parsedBody.imdbRating}`);
       console.log(`Rotten Tomatoes Rating: ${parsedBody.Ratings[1].Value}`);
       console.log(`Country Produced at: ${parsedBody.Country}`);
       console.log(`Language: ${parsedBody.Language}`);
-      console.log(`Plot: ${parsedBody.Plot}\n`);
-
-      Object.keys(parsedBody.Actors).forEach(function(l) {
-        console.log(`Actors: ${parsedBody.Actors[l]}`);
-      });
-      console.log(`===================================================`);
+      console.log(`Plot: ${parsedBody.Plot}`);
+      console.log(`Actors: ${parsedBody.Actors}`);
+      console.log(`\n===================================================`);
     });
     break;
 }
